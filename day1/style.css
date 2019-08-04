@@ -1,0 +1,139 @@
+*{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    outline: none;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+}
+#root{
+     width: 100%;
+     height: 100%;
+}
+.wrap{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.header{
+    width: 100%;
+    height: 150px;
+    position: relative;
+}
+.header>img{
+    width: 100%;height: 100%;
+}
+.header-img{
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    border-radius: 50%;
+    position: absolute;
+    left:50%;
+    top:50%;
+    margin-left: -50px;
+    margin-top: 30px;
+}   
+.header-img > img{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border-radius: 50%;
+}
+.main{
+    flex: 1;
+    overflow: auto;
+    width: 100%;
+    margin-top: 80px;
+}
+.name{
+    margin-top: 30px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 1000;
+}
+.Main{
+   text-align: center;
+   color: #666;
+   font-size: 14px;
+   margin-top: 10px;
+}
+.maxBox{
+    width: 100%;
+}
+.topBox{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    border-bottom: 1px solid #666;
+    margin-top: 10px;
+}
+span{
+    flex: 1;
+    text-align: center;
+    line-height: 40px;
+    font-size: 16px;
+}
+
+.bottomBox{
+    width: 100%;
+}
+.min-box{
+    width: 100%;
+    height: 120px;
+    display: flex;
+}
+.left{
+    flex: 3;
+}
+.left img{
+    width: 80%;
+    height: 90%;
+    margin-top: 10px;
+}
+.right{
+    flex: 7;
+    display: flex;
+    flex-direction: column;
+}
+.cname{
+    font-size: 20px;
+    font-weight: 1000;
+    flex: 2;
+    margin-top: 10px;
+}
+.cleft{
+    flex: 4;
+}
+.cright{
+    width: 100px;
+    font-size: 14px;
+    flex: 4;    
+    transform: translate(120px,-30px);
+    
+}
+.gwc{
+     width: 100px;
+     height: 40px;
+     line-height: 40px;
+     text-align: center;
+     background:skyblue;
+     margin-top: 10px;
+     color: #fff;
+}
+.p1{
+    font-size: 16px;
+    transform: translateY(15px);
+}
+.p2{
+    font-size: 16px;
+    margin-top: 10px;
+    transform: translateY(15px);
+    color: red;
+}
+
