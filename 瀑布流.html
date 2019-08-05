@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>最小的响应式动态网格瀑布流布局js插件</title>
+	<style type="text/css">
+	body{ background-color:#E8E8E8}
+		.demo {
+		  position: relative;
+		  opacity: 0;
+		  transition: .2s ease;
+		  margin-bottom: 60px;
+		}
+
+		.grid {
+		  position: relative;
+		  /* fluffy */
+		  margin: 0 auto;
+		  width: 98%;
+		  /* end fluffy */
+		}
+
+		.grid-item {
+			position: absolute;
+			top: 0;
+			left: 0;
+			/* fluffy */
+			width: 180px;
+			border-radius: 3px;
+			background-color: #EDEDED;
+			/* end fluffy */
+			-webkit-transition: .3s ease-in-out;
+			-o-transition: .3s ease-in-out;
+			transition: .3s ease-in-out;
+			border: 1px solid #ADADAD;
+				overflow: hidden;
+		}
+		.grid-item img{opacity:0;transform:scale(0); width: 100%;height:auto; vertical-align: middle; transition: all 1s; -webkit-transition: all 1s;}
+		/* mq */
+		@media (max-width: 600px) {
+		  .grid-item {
+		    width: 120px;
+		    height: 80px;
+		  }
+		}
+	</style>
+	
+</head>
+<body>
+	<div class="jq22-container">
+		<div class="demo">
+	        <div class="grid">
+	        </div>
+		</div>
+		
+	</div>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/123.js"></script>
+    <script>
+      (function(){
+        //瀑布流图片代码
+        var img_src = [
+        	{src : "img/11.jpg"},
+			{src : "img/12.jpg"},
+			{src : "img/13.jpg"},
+			{src : "img/14.jpg"},
+			{src : "img/15.jpg"},
+			{src : "img/16.jpg"},
+			{src : "img/17.jpg"},
+			{src : "img/18.jpg"},
+			{src : "img/19.jpg"},
+			{src : "img/20.jpg"},
+			{src : "img/21.jpg"},
+			{src : "img/22.jpg"}
+        ];
+        var i = 0,sum;
+        //瀑布流加载图片
+       	function load(){
+       		if(i<24){ 
+       			for(;i<24;i++){
+					create();
+				}
+       		}else{
+       			sum = i;
+       			for(;i<sum+3;i++){
+       				create();
+       			}
+       		}
+       	}
+        //生成一张图片
+        function create(){ 
+        	//生成一个div盒子对象 
+        	var oDiv = document.createElement("div");
+        	oDiv.className = "grid-item";
+        	//生成一个图片对象
+        	var oImg = new Image();
+        	oImg.src = img_src[i%img_src.length].src;
+        	//把图片放入div盒子
+        	oDiv.appendChild(oImg);
+        	//把div放入大盒子
+        	$(".grid").append(oDiv);
+        	(function(oImg){
+				setTimeout(function(){
+					oImg.style.cssText = "opacity:1;transform:scale(1);";
+				},100);
+			})(oImg); //立马调用
+        }
+        
+        //滚动滚动条的时候调用的事件
+        var scrollH = '';//文档高度
+		var scrollT = '';//滚动条高度
+		var _height = $(window).height();
+		$(window).scroll(function(){
+			scrollH = document.body.scrollHeight;
+			scrollT = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+			console.log(_height+" a "+scrollT+" b "+150+"  "+scrollH)
+			if(_height +scrollT+50>scrollH){
+				load();
+				 minigrid('.grid', '.grid-item');
+			}
+		});
+		
+		load();
+		setTimeout(function(){
+			minigrid('.grid', '.grid-item', 6, null, 
+	          function(){
+	            var d = document.querySelector('.demo');
+	            d.style.opacity = 1;
+	          }
+	        );
+		},100);
+		
+        window.addEventListener('resize', function(){
+          minigrid('.grid', '.grid-item');
+        });
+      })();
+    </script>
+</body>
+</html>

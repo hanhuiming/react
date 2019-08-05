@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>纯Javript 3D图片旋转插件</title>
+
+<style>
+	@charset "utf-8";
+* {
+	margin: 0;
+	padding: 0;
+	pointer-events: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+body{
+	background:#000;
+}
+dl {
+	width: 230px;
+	height: 340px;
+	position: relative;
+	margin: 150px auto 0;
+	-webkit-transform-style: -webkit-preserve-3d;
+	transform-style: preserve-3d;
+}
+dd {
+	width: 230px;
+	height: 340px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+img{width:100%;height:100%;}
+dt {
+	width: 900px;
+	height: 900px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%) rotateX(90deg) translateZ(-200px);
+	background: -moz-radial-gradient(center center,farthest-side,#fff5,#0005);
+	background: -webkit-radial-gradient(center center,farthest-side,#fff5,#0005);
+	background: -o-radial-gradient(center center,farthest-side,#fff5,#0005);
+	background: radial-gradient(center center,farthest-side,#fff5,#0005);
+}
+.inverteds {
+	transform: scaleY(-1);
+	position: absolute;
+	left: 0;
+	top: 370px;
+	width: 230px;
+	height: 340px;
+	opacity:0.5;
+}
+.inverted {
+	position: relative;
+	width: 230px;
+	height: 340px;
+
+}
+.inverted::before {
+	content: '';
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: -moz-radial-gradient(bottom,circle farthest-side,#0000,#000 66%);
+	background: -webkit-radial-gradient(bottom,circle farthest-side,#0000,#000 66%);
+	background: -o-radial-gradient(bottom,circle farthest-side,#0000,#000 66%);
+	background: radial-gradient(bottom,circle farthest-side,#0000,#000 66%);
+}
+h3{
+	color: green;
+	font-size:40px;
+	text-align: center;
+}
+h2{
+	color: yellow;
+	font-size:40px;
+	text-align: center;
+}
+</style>
+
+</head>
+<body>
+
+<dl>
+	<dt></dt>
+	<dd>
+		<img src="img/1.jpg" />
+	</dd>
+	<dd>
+		<img src="img/2.jpg" />
+	</dd>
+	<dd>
+		<img src="img/3.jpg" />
+	</dd>
+	<dd>
+		<img src="img/4.jpg" />
+	</dd>
+	<dd>
+		<img src="img/5.jpg" />
+	<dd>
+		<img src="img/6.jpg" />
+	</dd>
+	<h2>郜轶莹</h2>
+	<dd>
+		<img src="img/7.jpg" />
+	</dd>
+	<dd>
+		<img src="img/8.jpg" />
+	</dd>
+	<dd>
+		<img src="img/9.jpg" />
+	</dd>
+	<dd>
+		<img src="img/10.jpg" />
+	</dd>
+</dl>
+<h3>心想事成，万事如意</h3>
+
+<script>
+	window.onload = function () {
+	var dds = document.getElementsByTagName('dd');
+	var dl = document.getElementsByTagName('dl')[0];
+	dl.style.transform = "rotateX(-10deg) rotateY(0deg)";
+	for (var i = 0; i < dds.length; i++) {
+		var inverted = document.createElement('div');
+		var inverteds = document.createElement('div');
+		var img = document.createElement('img');
+		img.src = dds[i].getElementsByTagName('img')[0].src;
+		inverted.appendChild(img);
+		inverted.className = 'inverted';
+		inverteds.appendChild(inverted)
+		inverteds.className = 'inverteds';
+		dds[i].appendChild(inverteds);
+	}
+	deal(dds, dds.length - 1);
+	window.onmousedown = function (e) {
+		e = e || window.event;
+		var mouseX = e.clientX, mouseY = e.clientY;
+		var transform = dl.style.transform;
+		var rotateX = transform.substr(transform.indexOf('rotateX(') + 8);
+		var rotateY = transform.substr(transform.indexOf('rotateY(') + 8);
+		rotateX = parseInt(rotateX.substring(0, rotateX.indexOf('deg')));
+		rotateY = parseInt(rotateY.substring(0, rotateY.indexOf('deg')));
+		window.onmousemove = function (e) {
+			e = e || window.event;
+			var x = rotateX - (e.clientY - mouseY);
+			var y = rotateY + (e.clientX - mouseX);
+			if (x > 360 || x < -360)
+				x %= 360;
+			if (y > 360 || y < -360)
+				y %= 360;
+			dl.style.transform = "rotateX(" + x + "deg) rotateY(" + y + "deg)";
+		}
+		window.onmouseup = function () {
+			window.onmousemove = null;
+		}
+	}
+	function deal(dds, n) {
+		var speed = 100;
+		var translateZTerminus = 400;
+		var angle = 360 / dds.length * n;
+		var translateZ = 0;
+		var rotateY = 0;
+		var time = setInterval(function () {
+			translateZ += translateZTerminus / speed * 10;
+			rotateY += angle / speed * 10;
+			dds[n].style.transform = 'rotateY(' + rotateY + 'deg) translateZ(' + translateZ + 'px)';
+			if (rotateY >= angle && translateZ >= translateZTerminus) {
+				clearInterval(time);
+				dds[n].style.transform = 'rotateY(' + angle + 'deg) translateZ(' + translateZTerminus + 'px)';
+				if (n > 0)
+					deal(dds, n - 1);
+			}
+		}, 10);
+	}
+}
+</script>
+
+</body>
+</html>
